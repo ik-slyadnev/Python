@@ -15,7 +15,7 @@ allure-results/
 allure-report/
 
 # JetBrains
-.idea/
+../../.idea/
 *.iml
 
 # MacOS
