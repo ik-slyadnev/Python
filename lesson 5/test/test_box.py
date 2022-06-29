@@ -1,34 +1,55 @@
-import time
-
+import time, os
 from selene.support.shared import browser
-from selene.core import command
-from selene import be, have
+from selene import be, have, command
 
-def test_submit_form():
+def test_student_registration_form():
     browser.open('automation-practice-form')
-    browser.element('[id="firstName"]').should(be.blank).type('Ivan')
-    browser.element('[id="lastName"]').should(be.blank).type('Petrov')
-    browser.element('[id="userEmail"]').should(be.blank).type('ivan_petrov@ya.ru')
+
+    # First name, last name, mail
+    browser.element('#firstName').type('TestName')
+    browser.element('#lastName').type('TestSurname')
+    browser.element('#userEmail').type('test_email@ya.ru')
+
+    # Gender
     browser.element('[for="gender-radio-1"]').click()
-    browser.element('[id="userNumber"]').should(be.blank).type('9208887755')
-    browser.element('[id="dateOfBirth-wrapper"]').click()
-    browser.element(".react-datepicker__month-select").type("September")
-    browser.element(".react-datepicker__year-select").type("1993")
-    browser.element("[aria-label= 'Choose Saturday, September 18th, 1993']").click()
-    browser.element("#subjectsInput").type("Economics").press_enter().type("English").press_enter()
+    # Phone number
+    browser.element('#userNumber').type('9208887755')
+
+    # Form with date
+    browser.element('#dateOfBirth-wrapper').click()
+    browser.element('.react-datepicker__month-select').type("September")
+    browser.element('.react-datepicker__year-select').type("1993")
+    browser.element('[aria-label= "Choose Saturday, September 18th, 1993"]').click()
+
+    # Subjects
+    browser.element('#subjectsInput').type('Economics').press_enter().type('English').press_enter()
+
+    # Hobbies
     browser.element('[for="hobbies-checkbox-1"]').click()
     browser.element('[for="hobbies-checkbox-3"]').click()
-    browser.element('[id="uploadPicture"]').type('D:\\l8xMcQXMrRqEv1GdFVdPCD6a9zP.jpg')
-    time.sleep(1)
-    browser.element('[id="currentAddress"]').type('Bolshaya Nikitskaya st., 22k2, Moscow, 121099')
-    browser.element("#state").perform(command.js.scroll_into_view).click()
-    browser.element('[id="state"]').click()
-    browser.element("#state input").type("Rajasthan").press_enter()
-    browser.element('[id="city"]').click()
-    browser.element("#city input").type("Jaipur").press_enter()
-    browser.element('footer')._execute_script('element.style.display = "None"')
-    browser.element('[id="submit"]').press_enter()
-    time.sleep(3)
+
+    # Loading a picture
+    browser.element('#uploadPicture').send_keys(os.path.abspath('../resources/l8xMcQXMrRqEv1GdFVdPCD6a9zP.jpg'))
+
+    # Address
+    browser.element('#currentAddress').type('Bolshaya Nikitskaya st., 22k2, Moscow, 121099')
+
+    # Scroll
+    browser.element('#state').perform(command.js.scroll_into_view).click()
+
+    # State selection
+    browser.element('#state').click()
+    browser.element('#state input').type('Rajasthan').press_enter()
+
+    # City selection
+    browser.element('#city').click()
+    browser.element('#city input').type('Jaipur').press_enter()
+
+    # Submit form button
+    browser.element('#submit').press_enter()
+
+    # Let's see the result of magic
+    time.sleep(2)
 
 
 
