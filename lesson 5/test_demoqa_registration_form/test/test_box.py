@@ -1,6 +1,6 @@
-import time, os
+import os
 from selene.support.shared import browser
-from selene import be, have, command
+from selene import have, command
 
 def test_student_registration_form():
     browser.open('automation-practice-form')
@@ -48,10 +48,23 @@ def test_student_registration_form():
     # Submit form button
     browser.element('#submit').press_enter()
 
-    # Let's see the result of magic
-    time.sleep(2)
+    # Assertions
+    browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
 
+    browser.element("//td[text()='Student Name']").element("..").should(have.text('TestName TestSurname'))
+    browser.element("//td[text()='Student Email']").element("..").should(have.text('test_email@ya.ru'))
 
+    browser.element("//td[text()='Gender']").element("..").should(have.text('Male'))
+    browser.element("//td[text()='Mobile']").element("..").should(have.text('9208887755'))
+
+    browser.element("//td[text()='Date of Birth']").element("..").should(have.text('18 September,1993'))
+    browser.element("//td[text()='Subjects']").element("..").should(have.text('Economics, English'))
+
+    browser.element("//td[text()='Hobbies']").element("..").should(have.text('Sports, Music'))
+    browser.element("//td[text()='Picture']").element("..").should(have.text('l8xMcQXMrRqEv1GdFVdPCD6a9zP.jpg'))
+
+    browser.element("//td[text()='Address']").element("..").should(have.text('Bolshaya Nikitskaya st., 22k2, Moscow, 121099'))
+    browser.element("//td[text()='State and City']").element("..").should(have.text('Rajasthan Jaipur'))
 
 
 
